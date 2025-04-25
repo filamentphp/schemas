@@ -42,6 +42,7 @@ For building [forms](../forms), Filament includes a set of fields for different 
 - [Key-value](../forms/key-value)
 - [Color picker](../forms/color-picker)
 - [Toggle buttons](../forms/toggle-buttons)
+- [Slider](../forms/slider)
 - [Hidden](../forms/hidden)
 - Or, build your own [custom form field](../forms/custom-fields)
 
