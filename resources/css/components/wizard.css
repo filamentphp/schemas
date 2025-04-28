@@ -122,12 +122,16 @@
     & .fi-sc-wizard-step {
         @apply outline-hidden;
 
-        &.fi-active {
-            @apply mt-6;
-        }
-
         &:not(.fi-active) {
             @apply invisible absolute h-0 overflow-hidden p-0;
+        }
+    }
+
+    &:not(.fi-sc-wizard-header-hidden) {
+        & .fi-sc-wizard-step {
+            &.fi-active {
+                @apply mt-6;
+            }
         }
     }
 

@@ -151,6 +151,10 @@ trait HasComponents
                     continue;
                 }
 
+                if (! ($component instanceof Component)) {
+                    continue;
+                }
+
                 $componentKey = $component->getKey();
 
                 if (filled($componentKey) && ($componentKey === $findComponentUsing)) {

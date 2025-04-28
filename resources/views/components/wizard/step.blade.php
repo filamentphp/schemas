@@ -21,6 +21,7 @@
     @if (filled($alpineSubmitHandler))
         x-on:submit.prevent="isLastStep() ? {!! $alpineSubmitHandler !!} : requestNextStep()"
     @endif
+    x-cloak
     x-ref="step-{{ $key }}"
     {{
         $attributes

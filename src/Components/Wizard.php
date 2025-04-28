@@ -36,6 +36,8 @@ class Wizard extends Component
 
     protected string | Closure | null $alpineSubmitHandler = null;
 
+    protected bool | Closure $isHeaderHidden = false;
+
     /**
      * @var view-string
      */
@@ -284,5 +286,17 @@ class Wizard extends Component
     public function getAlpineSubmitHandler(): ?string
     {
         return $this->evaluate($this->alpineSubmitHandler);
+    }
+
+    public function hiddenHeader(bool | Closure $condition = true): static
+    {
+        $this->isHeaderHidden = $condition;
+
+        return $this;
+    }
+
+    public function isHeaderHidden(): bool
+    {
+        return (bool) $this->evaluate($this->isHeaderHidden);
     }
 }

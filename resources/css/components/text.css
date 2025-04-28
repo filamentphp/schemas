@@ -1,44 +1,6 @@
 .fi-sc-text {
-    @apply text-sm break-words text-gray-600 dark:text-gray-400;
-
     &.fi-copyable {
         @apply cursor-pointer;
-    }
-
-    &.fi-font-thin {
-        @apply font-thin;
-    }
-
-    &.fi-font-extralight {
-        @apply font-extralight;
-    }
-
-    &.fi-font-light {
-        @apply font-light;
-    }
-
-    &.fi-font-normal {
-        @apply font-normal;
-    }
-
-    &.fi-font-medium {
-        @apply font-medium;
-    }
-
-    &.fi-font-semibold {
-        @apply font-semibold;
-    }
-
-    &.fi-font-bold {
-        @apply font-bold;
-    }
-
-    &.fi-font-extrabold {
-        @apply font-extrabold;
-    }
-
-    &.fi-font-black {
-        @apply font-black;
     }
 
     &.fi-font-sans {
@@ -53,23 +15,63 @@
         @apply font-mono;
     }
 
-    &.fi-color-neutral {
-        @apply text-gray-950 dark:text-white;
-    }
+    &:not(.fi-badge) {
+        @apply text-sm break-words text-gray-600 dark:text-gray-400;
 
-    &.fi-color:not(.fi-color-neutral) {
-        @apply text-(--text) dark:text-(--dark-text);
-    }
+        &.fi-font-thin {
+            @apply font-thin;
+        }
 
-    &.fi-size-xs {
-        @apply text-xs;
-    }
+        &.fi-font-extralight {
+            @apply font-extralight;
+        }
 
-    &.fi-size-md {
-        @apply text-base;
-    }
+        &.fi-font-light {
+            @apply font-light;
+        }
 
-    &.fi-size-lg {
-        @apply text-lg;
+        &.fi-font-normal {
+            @apply font-normal;
+        }
+
+        &.fi-font-medium {
+            @apply font-medium;
+        }
+
+        &.fi-font-semibold {
+            @apply font-semibold;
+        }
+
+        &.fi-font-bold {
+            @apply font-bold;
+        }
+
+        &.fi-font-extrabold {
+            @apply font-extrabold;
+        }
+
+        &.fi-font-black {
+            @apply font-black;
+        }
+
+        &.fi-size-lg {
+            @apply text-lg;
+        }
+
+        &.fi-color-neutral {
+            @apply text-gray-950 dark:text-white;
+        }
+
+        &.fi-color:not(.fi-color-neutral) {
+            @apply text-(--text) dark:text-(--dark-text);
+        }
+
+        &.fi-size-xs {
+            @apply text-xs;
+        }
+
+        &.fi-size-md {
+            @apply text-base;
+        }
     }
 }

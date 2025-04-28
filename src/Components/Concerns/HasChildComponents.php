@@ -174,13 +174,17 @@ trait HasChildComponents
         foreach ($this->childComponents as $key => $childComponents) {
             if (is_array($childComponents)) {
                 $this->childComponents[$key] = array_map(
-                    fn (Component | Action | ActionGroup $component): Component | Action | ActionGroup => match (true) {
-                        $component instanceof Component => $component->getClone(),
-                        default => clone $component,
+                    fn (Component | Action | ActionGroup | string $component): Component | Action | ActionGroup | string => match (true) {
+                        $component instanceof Component, $component instanceof Action, $component instanceof ActionGroup => $component->getClone(),
+                        default => $component,
                     },
                     $childComponents,
                 );
-            } elseif (! ($childComponents instanceof Closure)) {
+            } elseif (
+                ($childComponents instanceof Component) ||
+                ($childComponents instanceof Action) ||
+                ($childComponents instanceof ActionGroup)
+            ) {
                 $this->childComponents[$key] = $childComponents->getClone();
             }
         }

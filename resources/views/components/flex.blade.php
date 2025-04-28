@@ -1,4 +1,5 @@
 @php
+    use Filament\Schemas\Components\Component;
     use Filament\Support\Enums\VerticalAlignment;
 
     $fromBreakpoint = $getFromBreakpoint();
@@ -24,7 +25,7 @@
     @foreach ($getChildSchema()->getComponents() as $component)
         <div
             @class([
-                'fi-growable' => $component->canGrow(),
+                'fi-growable' => ($component instanceof Component) && $component->canGrow(),
             ])
         >
             {{ $component }}

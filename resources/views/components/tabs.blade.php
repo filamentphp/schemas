@@ -25,7 +25,6 @@
             tabQueryStringKey: @js($getTabQueryStringKey()),
         })"
         wire:ignore.self
-        x-cloak
         {{
             $attributes
                 ->merge([
@@ -52,7 +51,7 @@
             x-ref="tabsData"
         />
 
-        <x-filament::tabs :contained="$isContained" :label="$label">
+        <x-filament::tabs :contained="$isContained" :label="$label" x-cloak>
             @foreach ($getStartRenderHooks() as $startRenderHook)
                 {{ \Filament\Support\Facades\FilamentView::renderHook($startRenderHook, scopes: $renderHookScopes) }}
             @endforeach
