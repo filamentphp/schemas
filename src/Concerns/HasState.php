@@ -5,7 +5,7 @@ namespace Filament\Schemas\Concerns;
 use Closure;
 use Exception;
 use Filament\Infolists\Components\Entry;
-use Filament\Support\Partials\SupportPartials;
+use Filament\Support\Livewire\Partials\PartialsComponentHook;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -123,7 +123,7 @@ trait HasState
             return false;
         } finally {
             if ($this->shouldPartiallyRender($path)) {
-                app(SupportPartials::class)->renderPartial($this->getLivewire(), fn (): array => [
+                app(PartialsComponentHook::class)->renderPartial($this->getLivewire(), fn (): array => [
                     "schema.{$this->getKey()}" => $this->render(),
                 ]);
             }

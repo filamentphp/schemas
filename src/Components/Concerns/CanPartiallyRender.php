@@ -4,7 +4,7 @@ namespace Filament\Schemas\Components\Concerns;
 
 use Closure;
 use Exception;
-use Filament\Support\Partials\SupportPartials;
+use Filament\Support\Livewire\Partials\PartialsComponentHook;
 
 trait CanPartiallyRender
 {
@@ -61,7 +61,7 @@ trait CanPartiallyRender
 
     public function partiallyRender(): void
     {
-        app(SupportPartials::class)->renderPartial($this->getLivewire(), function (): array {
+        app(PartialsComponentHook::class)->renderPartial($this->getLivewire(), function (): array {
             $key = $this->getKey();
 
             if (blank($key)) {
@@ -76,6 +76,6 @@ trait CanPartiallyRender
 
     public function skipRender(): void
     {
-        app(SupportPartials::class)->skipPartialRender($this->getLivewire());
+        app(PartialsComponentHook::class)->skipPartialRender($this->getLivewire());
     }
 }

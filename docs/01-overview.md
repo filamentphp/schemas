@@ -43,6 +43,7 @@ For building [forms](../forms), Filament includes a set of fields for different 
 - [Color picker](../forms/color-picker)
 - [Toggle buttons](../forms/toggle-buttons)
 - [Slider](../forms/slider)
+- [Code editor](../forms/code-editor)
 - [Hidden](../forms/hidden)
 - Or, build your own [custom form field](../forms/custom-fields)
 
@@ -52,6 +53,7 @@ For displaying data in a label-value "description list" format, Filament include
 - [Icon entry](../infolists/icon-entry)
 - [Image entry](../infolists/image-entry)
 - [Color entry](../infolists/color-entry)
+- [Code entry](../infolists/code-entry)
 - [Key-value entry](../infolists/key-value-entry)
 - [Repeatable entry](../infolists/repeatable-entry)
 - Or, build your own [custom infolist entry](../infolists/custom-entries)

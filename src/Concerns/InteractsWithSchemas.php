@@ -201,7 +201,7 @@ trait InteractsWithSchemas
                 }
 
                 if (method_exists($this, 'default' . ucfirst($name))) {
-                    $schema = $this->{'default' . ucfirst($name)}($schema);
+                    $this->{'default' . ucfirst($name)}($schema);
                 }
 
                 return $this->cachedSchemas[$name] = ($this->{$methodName}())->key($name);
