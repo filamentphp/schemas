@@ -4,6 +4,7 @@ namespace Filament\Schemas\Components;
 
 use Closure;
 use Filament\Actions\Action;
+use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Support\Components\Attributes\ExposedLivewireMethod;
@@ -17,6 +18,7 @@ class Wizard extends Component
 {
     use Concerns\CanBeContained;
     use Concerns\HasExtraAlpineAttributes;
+    use HasLabel;
 
     protected string | Htmlable | null $cancelAction = null;
 

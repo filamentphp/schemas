@@ -8,6 +8,8 @@ use Filament\Support\Concerns\CanBeCopied;
 use Filament\Support\Concerns\HasColor;
 use Filament\Support\Concerns\HasFontFamily;
 use Filament\Support\Concerns\HasIcon;
+use Filament\Support\Concerns\HasIconPosition;
+use Filament\Support\Concerns\HasIconSize;
 use Filament\Support\Concerns\HasTooltip;
 use Filament\Support\Concerns\HasWeight;
 use Filament\Support\Enums\TextSize;
@@ -19,6 +21,8 @@ class Text extends Component
     use HasColor;
     use HasFontFamily;
     use HasIcon;
+    use HasIconPosition;
+    use HasIconSize;
     use HasTooltip;
     use HasWeight;
 

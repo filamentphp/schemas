@@ -14,6 +14,7 @@ use Filament\Schemas\Components\Concerns\HasDescription;
 use Filament\Schemas\Components\Concerns\HasFooterActions;
 use Filament\Schemas\Components\Concerns\HasHeaderActions;
 use Filament\Schemas\Components\Concerns\HasHeading;
+use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Contracts\CanConcealComponents;
 use Filament\Schemas\Components\Contracts\CanEntangleWithSingularRelationships;
 use Filament\Schemas\Schema;
@@ -21,6 +22,7 @@ use Filament\Support\Concerns\CanBeContained;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Support\Concerns\HasIcon;
 use Filament\Support\Concerns\HasIconColor;
+use Filament\Support\Concerns\HasIconSize;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Size;
 use Illuminate\Contracts\Support\Htmlable;
@@ -41,6 +43,8 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
     use HasHeading;
     use HasIcon;
     use HasIconColor;
+    use HasIconSize;
+    use HasLabel;
 
     /**
      * @var view-string

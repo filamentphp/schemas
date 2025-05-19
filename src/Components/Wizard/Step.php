@@ -5,11 +5,14 @@ namespace Filament\Schemas\Components\Wizard;
 use BackedEnum;
 use Closure;
 use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Contracts\CanConcealComponents;
 use Illuminate\Support\Str;
 
 class Step extends Component implements CanConcealComponents
 {
+    use HasLabel;
+
     protected ?Closure $afterValidation = null;
 
     protected ?Closure $beforeValidation = null;

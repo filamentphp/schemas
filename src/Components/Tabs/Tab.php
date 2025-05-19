@@ -2,11 +2,16 @@
 
 namespace Filament\Schemas\Components\Tabs;
 
+use BackedEnum;
 use Closure;
 use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Contracts\CanConcealComponents;
 use Filament\Support\Concerns\HasBadge;
+use Filament\Support\Concerns\HasBadgeTooltip;
 use Filament\Support\Concerns\HasIcon;
+use Filament\Support\Concerns\HasIconPosition;
+use Filament\Support\Enums\IconPosition;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -14,9 +19,16 @@ use Illuminate\Support\Str;
 class Tab extends Component implements CanConcealComponents
 {
     use HasBadge;
+    use HasBadgeTooltip;
     use HasIcon;
+    use HasIconPosition;
+    use HasLabel;
 
     protected ?Closure $modifyQueryUsing = null;
+
+    protected string | BackedEnum | Closure | null $badgeIcon = null;
+
+    protected IconPosition | string | Closure | null $badgeIconPosition = null;
 
     /**
      * @var view-string
@@ -75,5 +87,29 @@ class Tab extends Component implements CanConcealComponents
         return $this->evaluate($this->modifyQueryUsing, [
             'query' => $query,
         ]) ?? $query;
+    }
+
+    public function badgeIcon(string | BackedEnum | Closure | null $icon): static
+    {
+        $this->badgeIcon = $icon;
+
+        return $this;
+    }
+
+    public function badgeIconPosition(IconPosition | string | Closure | null $position): static
+    {
+        $this->badgeIconPosition = $position;
+
+        return $this;
+    }
+
+    public function getBadgeIcon(): string | BackedEnum | null
+    {
+        return $this->evaluate($this->badgeIcon);
+    }
+
+    public function getBadgeIconPosition(): IconPosition | string
+    {
+        return $this->evaluate($this->badgeIconPosition) ?? IconPosition::Before;
     }
 }

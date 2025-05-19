@@ -211,6 +211,10 @@ class Schema extends ViewComponent implements HasEmbeddedView
 
                     $maxWidth = $schemaComponent->getMaxWidth();
 
+                    $schemaComponentStatePath = $isEmbeddedInParentComponent
+                        ? $parentComponent->getStatePath()
+                        : $schemaComponent->getStatePath();
+
                     $attributes = (new ComponentAttributeBag)
                         ->when(
                             ! $isInline,
@@ -224,36 +228,34 @@ class Schema extends ViewComponent implements HasEmbeddedView
                             ($maxWidth instanceof Width) ? "fi-width-{$maxWidth->value}" : $maxWidth,
                         ]);
                     ?>
-                    <div <?= $attributes->toHtml() ?>>
+                    <div
                         <?php if ($isSchemaComponentVisible) { ?>
-                            <?php
-                                $schemaComponentStatePath = $isEmbeddedInParentComponent
-                                    ? $parentComponent->getStatePath()
-                                    : $schemaComponent->getStatePath();
-                            ?>
-
+                            x-data="filamentSchemaComponent({
+                                path: <?= Js::from($schemaComponentStatePath) ?>,
+                                containerPath: <?= Js::from($statePath) ?>,
+                                isLive: <?= Js::from($schemaComponent->isLive()) ?>,
+                                $wire,
+                            })"
+                            <?php if ($afterStateUpdatedJs = $schemaComponent->getAfterStateUpdatedJs()) { ?>
+                                x-init="<?= implode(';', array_map(
+                                    fn (string $js): string => '$wire.watch(' . Js::from($schemaComponentStatePath) . ', ($state, $old) => eval(' . Js::from($js) . '))',
+                                    $afterStateUpdatedJs,
+                                )) ?>"
+                            <?php } ?>
+                            <?php if (filled($visibilityJs = match ([filled($hiddenJs), filled($visibleJs)]) {
+                                [true, true] => "(! ({$hiddenJs})) && ({$visibleJs})",
+                                [true, false] => "! ({$hiddenJs})",
+                                [false, true] => $visibleJs,
+                                default => null,
+                            })) { ?>
+                                x-bind:class="{ 'fi-hidden': ! (<?= $visibilityJs ?>) }"
+                                x-cloak
+                            <?php } ?>
+                        <?php } ?>
+                        <?= $attributes->toHtml() ?>
+                    >
+                        <?php if ($isSchemaComponentVisible) { ?>
                             <div
-                                x-data="filamentSchemaComponent({
-                                        path: <?= Js::from($schemaComponentStatePath) ?>,
-                                        containerPath: <?= Js::from($statePath) ?>,
-                                        isLive: <?= Js::from($schemaComponent->isLive()) ?>,
-                                        $wire,
-                                    })"
-                                <?php if ($afterStateUpdatedJs = $schemaComponent->getAfterStateUpdatedJs()) { ?>
-                                    x-init="<?= implode(';', array_map(
-                                        fn (string $js): string => '$wire.watch(' . Js::from($schemaComponentStatePath) . ', ($state, $old) => eval(' . Js::from($js) . '))',
-                                        $afterStateUpdatedJs,
-                                    )) ?>"
-                                <?php } ?>
-                                <?php if (filled($xShow = match ([filled($hiddenJs), filled($visibleJs)]) {
-                                    [true, true] => "(! ({$hiddenJs})) && ({$visibleJs})",
-                                    [true, false] => "! ({$hiddenJs})",
-                                    [false, true] => $visibleJs,
-                                    default => null,
-                                })) { ?>
-                                    x-show="<?= $xShow ?>"
-                                    x-cloak
-                                <?php } ?>
                                 class="<?= Arr::toCssClasses([
                                     'fi-sc-component',
                                     'fi-grid-ctn' => $schemaComponent->isGridContainer(),

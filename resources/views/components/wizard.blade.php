@@ -73,7 +73,7 @@
                         type="button"
                         x-bind:aria-current="getStepIndex(step) === {{ $loop->index }} ? 'step' : null"
                         x-on:click="step = @js($step->getKey())"
-                        x-bind:disabled="! isStepAccessible(@js($step->getKey()))"
+                        x-bind:disabled="! isStepAccessible(@js($step->getKey())) || @js($previousAction->isDisabled())"
                         role="step"
                         class="fi-sc-wizard-header-step-btn"
                     >

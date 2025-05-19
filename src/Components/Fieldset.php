@@ -4,12 +4,14 @@ namespace Filament\Schemas\Components;
 
 use Closure;
 use Filament\Schemas\Components\Concerns\EntanglesStateWithSingularRelationship;
+use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Contracts\CanEntangleWithSingularRelationships;
 use Illuminate\Contracts\Support\Htmlable;
 
 class Fieldset extends Component implements CanEntangleWithSingularRelationships
 {
     use EntanglesStateWithSingularRelationship;
+    use HasLabel;
 
     /**
      * @var view-string

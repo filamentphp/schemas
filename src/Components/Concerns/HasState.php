@@ -4,6 +4,7 @@ namespace Filament\Schemas\Components\Concerns;
 
 use Closure;
 use Exception;
+use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Filament\Infolists\Components\Entry;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\StateCasts\Contracts\StateCast;
@@ -933,7 +934,16 @@ trait HasState
      */
     public function getConstantStateFromRecord(Model $record): mixed
     {
-        $state = data_get($record, $this->getConstantStatePath());
+        $name = $this->getConstantStatePath();
+
+        if (
+            ($record instanceof HasRichContent) &&
+            $record->hasRichContentAttribute($name)
+        ) {
+            $state = $record->getRichContentAttribute($name);
+        } else {
+            $state = data_get($record, $name);
+        }
 
         if ($state !== null) {
             return $state;

@@ -21,7 +21,6 @@ use Filament\Schemas\Components\Concerns\HasHeadings;
 use Filament\Schemas\Components\Concerns\HasId;
 use Filament\Schemas\Components\Concerns\HasInlineLabel;
 use Filament\Schemas\Components\Concerns\HasKey;
-use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Concerns\HasMaxWidth;
 use Filament\Schemas\Components\Concerns\HasMeta;
 use Filament\Schemas\Components\Concerns\HasState;
@@ -64,7 +63,6 @@ class Component extends ViewComponent
     use HasId;
     use HasInlineLabel;
     use HasKey;
-    use HasLabel;
     use HasMaxWidth;
     use HasMeta;
     use HasState;

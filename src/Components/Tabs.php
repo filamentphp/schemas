@@ -4,6 +4,7 @@ namespace Filament\Schemas\Components;
 
 use Closure;
 use Filament\Schemas\Components\Concerns\CanPersistTab;
+use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Contracts\HasRenderHookScopes;
 use Filament\Support\Concerns;
@@ -15,6 +16,7 @@ class Tabs extends Component
     use CanPersistTab;
     use Concerns\CanBeContained;
     use Concerns\HasExtraAlpineAttributes;
+    use HasLabel;
 
     /**
      * @var view-string
