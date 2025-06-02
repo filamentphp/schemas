@@ -14,6 +14,7 @@ use Filament\Support\Concerns\HasDefaultDataFormattingSettings;
 use Filament\Support\Concerns\HasExtraAttributes;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Js;
@@ -100,9 +101,9 @@ class Schema extends ViewComponent implements HasEmbeddedView
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Schema | Component | Action | ActionGroup | string | Closure  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure  $components
      */
-    public static function start(array | Schema | Component | Action | ActionGroup | string | Closure $components): static
+    public static function start(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure $components): static
     {
         return static::make()
             ->components($components)
@@ -110,9 +111,9 @@ class Schema extends ViewComponent implements HasEmbeddedView
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Schema | Component | Action | ActionGroup | string | Closure  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure  $components
      */
-    public static function end(array | Schema | Component | Action | ActionGroup | string | Closure $components): static
+    public static function end(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure $components): static
     {
         return static::make()
             ->components($components)
@@ -120,9 +121,9 @@ class Schema extends ViewComponent implements HasEmbeddedView
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Schema | Component | Action | ActionGroup | string | Closure  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure  $components
      */
-    public static function between(array | Schema | Component | Action | ActionGroup | string | Closure $components): static
+    public static function between(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure $components): static
     {
         return static::make()
             ->components($components)

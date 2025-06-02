@@ -3,6 +3,7 @@
 namespace Filament\Schemas\Components;
 
 use Closure;
+use Filament\Forms\Components\Concerns\CanBeMarkedAsRequired;
 use Filament\Schemas\Components\Concerns\EntanglesStateWithSingularRelationship;
 use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Contracts\CanEntangleWithSingularRelationships;
@@ -10,6 +11,7 @@ use Illuminate\Contracts\Support\Htmlable;
 
 class Fieldset extends Component implements CanEntangleWithSingularRelationships
 {
+    use CanBeMarkedAsRequired;
     use EntanglesStateWithSingularRelationship;
     use HasLabel;
 
@@ -36,5 +38,10 @@ class Fieldset extends Component implements CanEntangleWithSingularRelationships
         parent::setUp();
 
         $this->columns(2);
+    }
+
+    public function isRequired(): bool
+    {
+        return false;
     }
 }

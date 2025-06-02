@@ -26,7 +26,7 @@ class Text extends Component
     use HasTooltip;
     use HasWeight;
 
-    protected string | Htmlable | Closure $content;
+    protected string | Htmlable | Closure | null $content;
 
     protected bool | Closure $isBadge = false;
 
@@ -34,12 +34,12 @@ class Text extends Component
 
     protected string $view = 'filament-schemas::components.text';
 
-    final public function __construct(string | Htmlable | Closure $content)
+    final public function __construct(string | Htmlable | Closure | null $content)
     {
         $this->content($content);
     }
 
-    public static function make(string | Htmlable | Closure $content): static
+    public static function make(string | Htmlable | Closure | null $content): static
     {
         $static = app(static::class, ['content' => $content]);
         $static->configure();
@@ -54,7 +54,7 @@ class Text extends Component
         $this->defaultColor('gray');
     }
 
-    public function content(string | Htmlable | Closure $content): static
+    public function content(string | Htmlable | Closure | null $content): static
     {
         $this->content = $content;
 
@@ -80,7 +80,7 @@ class Text extends Component
         return $this;
     }
 
-    public function getContent(): string | Htmlable
+    public function getContent(): string | Htmlable | null
     {
         return $this->evaluate($this->content);
     }

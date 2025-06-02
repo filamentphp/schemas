@@ -14,14 +14,8 @@
 
 <div
     @if ($isSticky())
-        @if (FilamentView::hasSpaMode())
-            {{-- format-ignore-start --}}x-load="visible || event (x-modal-opened)"{{-- format-ignore-end --}}
-        @else
-            x-load
-        @endif
-        x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('actions', 'filament/schemas') }}"
-        x-data="actionsSchemaComponent()"
-        x-on:scroll.window="evaluatePageScrollPosition"
+        x-data="filamentActionsSchemaComponent()"
+        x-on:scroll.window.throttle="evaluatePageScrollPosition"
         x-bind:class="{
             'fi-sticky': isSticky,
         }"

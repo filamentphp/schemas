@@ -50,13 +50,13 @@ trait BelongsToModel
         }
     }
 
-    public function loadStateFromRelationships(bool $andHydrate = false): void
+    public function loadStateFromRelationships(bool $shouldHydrate = false): void
     {
         foreach ($this->getComponents(withActions: false, withHidden: true) as $component) {
-            $component->loadStateFromRelationships($andHydrate);
+            $component->loadStateFromRelationships($shouldHydrate);
 
             foreach ($component->getChildSchemas(withHidden: true) as $childSchema) {
-                $childSchema->loadStateFromRelationships($andHydrate);
+                $childSchema->loadStateFromRelationships($shouldHydrate);
             }
         }
     }

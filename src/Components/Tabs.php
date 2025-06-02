@@ -39,6 +39,8 @@ class Tabs extends Component
 
     protected string | Closure | null $livewireProperty = null;
 
+    protected bool | Closure $isVertical = false;
+
     final public function __construct(string | Htmlable | Closure | null $label = null)
     {
         $this->label($label);
@@ -178,5 +180,17 @@ class Tabs extends Component
     public function getLivewireProperty(): ?string
     {
         return $this->evaluate($this->livewireProperty);
+    }
+
+    public function vertical(bool | Closure $condition = true): static
+    {
+        $this->isVertical = $condition;
+
+        return $this;
+    }
+
+    public function isVertical(): bool
+    {
+        return (bool) $this->evaluate($this->isVertical);
     }
 }

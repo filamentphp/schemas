@@ -8,6 +8,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Schemas\Components\Concerns\EntanglesStateWithSingularRelationship;
 use Filament\Support\Concerns\HasFromBreakpoint;
 use Filament\Support\Concerns\HasVerticalAlignment;
+use Illuminate\Contracts\Support\Htmlable;
 
 class Flex extends Component
 {
@@ -21,7 +22,7 @@ class Flex extends Component
     protected string $view = 'filament-schemas::components.flex';
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Closure  $schema
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Closure  $schema
      */
     final public function __construct(array | Closure $schema)
     {
@@ -29,7 +30,7 @@ class Flex extends Component
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Closure  $schema
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Closure  $schema
      */
     public static function make(array | Closure $schema): static
     {

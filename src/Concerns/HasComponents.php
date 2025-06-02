@@ -7,16 +7,18 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Field;
 use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Html;
 use Filament\Schemas\Components\Text;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 trait HasComponents
 {
     /**
-     * @var array<Component | Action | ActionGroup | string> | Component | Action | ActionGroup | string | Closure
+     * @var array<Component | Action | ActionGroup | string | Htmlable> | Component | Action | ActionGroup | string | Htmlable | Closure
      */
-    protected array | Component | Action | ActionGroup | string | Closure $components = [];
+    protected array | Component | Action | ActionGroup | string | Htmlable | Closure $components = [];
 
     /**
      * @var array<array<array<array<array<string, Component| Action | ActionGroup>>>>>
@@ -24,9 +26,9 @@ trait HasComponents
     protected array $cachedFlatComponents = [];
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Component | Action | ActionGroup | string | Closure  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Component | Action | ActionGroup | string | Htmlable | Closure  $components
      */
-    public function components(array | Component | Action | ActionGroup | string | Closure $components): static
+    public function components(array | Component | Action | ActionGroup | string | Htmlable | Closure $components): static
     {
         $this->components = $components;
 
@@ -34,9 +36,9 @@ trait HasComponents
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Component | Action | ActionGroup | string | Closure  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Component | Action | ActionGroup | string | Htmlable | Closure  $components
      */
-    public function schema(array | Component | Action | ActionGroup | string | Closure $components): static
+    public function schema(array | Component | Action | ActionGroup | string | Htmlable | Closure $components): static
     {
         $this->components($components);
 
@@ -193,7 +195,7 @@ trait HasComponents
     }
 
     /**
-     * @return array<Component | Action | ActionGroup | string>
+     * @return array<Component | Action | ActionGroup>
      */
     public function getFlatComponents(bool $withActions = true, bool $withHidden = false, bool $withAbsoluteKeys = false, ?string $containerKey = null): array
     {
@@ -232,11 +234,11 @@ trait HasComponents
     }
 
     /**
-     * @return array<Component | Action | ActionGroup | string>
+     * @return array<Component | Action | ActionGroup>
      */
     public function getComponents(bool $withActions = true, bool $withHidden = false, bool $withOriginalKeys = false): array
     {
-        $components = array_map(function (Component | Action | ActionGroup | string $component): Component | Action | ActionGroup {
+        $components = array_map(function (Component | Action | ActionGroup | string | Htmlable $component): Component | Action | ActionGroup {
             if ($component instanceof Action) {
                 $this->configureAction($component);
             }
@@ -251,6 +253,10 @@ trait HasComponents
 
             if (is_string($component)) {
                 $component = Text::make($component);
+            }
+
+            if (! $component instanceof Component) {
+                $component = Html::make($component);
             }
 
             return $component->container($this);
@@ -283,7 +289,7 @@ trait HasComponents
     {
         if (! ($this->components instanceof Closure)) {
             $this->components = array_map(
-                fn (Component | Action | ActionGroup | string $component): Component | Action | ActionGroup | string => match (true) {
+                fn (Component | Action | ActionGroup | string | Htmlable $component): Component | Action | ActionGroup | string | Htmlable => match (true) {
                     $component instanceof Action, $component instanceof ActionGroup => (clone $component)
                         ->schemaContainer($this),
                     $component instanceof Component => $component

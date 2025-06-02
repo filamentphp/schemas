@@ -1,15 +1,17 @@
-export default function actionsSchemaComponent() {
-    return {
-        isSticky: false,
+export default () => ({
+    isSticky: false,
 
-        init: function () {
-            this.evaluatePageScrollPosition()
-        },
+    init: function () {
+        this.evaluatePageScrollPosition()
+    },
 
-        evaluatePageScrollPosition: function () {
-            this.isSticky =
-                document.body.scrollHeight >=
-                window.scrollY + window.innerHeight * 2
-        },
-    }
-}
+    evaluatePageScrollPosition: function () {
+        const rect = this.$el.getBoundingClientRect()
+
+        const isBelowViewport = rect.top > window.innerHeight
+        const isPartiallyVisible =
+            rect.top < window.innerHeight && rect.bottom > window.innerHeight
+
+        this.isSticky = isBelowViewport || isPartiallyVisible
+    },
+})

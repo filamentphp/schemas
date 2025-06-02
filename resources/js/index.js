@@ -1,3 +1,5 @@
+import actions from './components/actions.js'
+
 const resolveRelativeStatePath = function (containerPath, path, isAbsolute) {
     let containerPathCopy = containerPath
 
@@ -93,6 +95,8 @@ document.addEventListener('alpine:init', () => {
             },
         }),
     )
+
+    window.Alpine.data('filamentActionsSchemaComponent', actions)
 
     Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
         succeed(({ snapshot, effects }) => {

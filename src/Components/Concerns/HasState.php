@@ -37,6 +37,8 @@ trait HasState
 
     protected ?Closure $beforeStateDehydrated = null;
 
+    protected bool $shouldUpdateValidatedStateAfterBeforeStateDehydratedRuns = false;
+
     protected mixed $defaultState = null;
 
     protected ?Closure $dehydrateStateUsing = null;
@@ -149,9 +151,10 @@ trait HasState
         return $this;
     }
 
-    public function beforeStateDehydrated(?Closure $callback): static
+    public function beforeStateDehydrated(?Closure $callback, bool $shouldUpdateValidatedStateAfter = false): static
     {
         $this->beforeStateDehydrated = $callback;
+        $this->shouldUpdateValidatedStateAfterBeforeStateDehydratedRuns = $shouldUpdateValidatedStateAfter;
 
         return $this;
     }
@@ -165,7 +168,7 @@ trait HasState
         return $this;
     }
 
-    public function callAfterStateUpdated(): static
+    public function callAfterStateUpdated(bool $shouldBubbleToParents = true): static
     {
         $this->callAfterStateUpdatedHooks();
 
@@ -183,10 +186,14 @@ trait HasState
             $this->skipRender();
         }
 
+        if ($shouldBubbleToParents) {
+            $this->getContainer()->getParentComponent()->callAfterStateUpdated();
+        }
+
         return $this;
     }
 
-    public function callAfterStateUpdatedHooks(): static
+    protected function callAfterStateUpdatedHooks(): static
     {
         foreach ($this->afterStateUpdated as $callback) {
             $runId = spl_object_id($callback) . md5(json_encode($this->getState()));
@@ -211,10 +218,19 @@ trait HasState
         ]);
     }
 
-    public function callBeforeStateDehydrated(): static
+    /**
+     * @param  array<string, mixed>  $state
+     */
+    public function callBeforeStateDehydrated(array &$state = []): static
     {
-        if ($callback = $this->beforeStateDehydrated) {
-            $this->evaluate($callback);
+        if (! $this->beforeStateDehydrated) {
+            return $this;
+        }
+
+        $this->evaluate($this->beforeStateDehydrated);
+
+        if ($this->shouldUpdateValidatedStateAfterBeforeStateDehydratedRuns) {
+            Arr::set($state, $this->getStatePath(), $this->getState()); /** @phpstan-ignore parameterByRef.type */
         }
 
         return $this;
@@ -259,13 +275,19 @@ trait HasState
     /**
      * @return array<string, mixed>
      */
-    public function getStateToDehydrate(): array
+    public function getStateToDehydrate(mixed $state): array
     {
-        if ($callback = $this->dehydrateStateUsing) {
-            return [$this->getStatePath() => $this->evaluate($callback)];
+        foreach ($this->getStateCasts() as $stateCast) {
+            $state = $stateCast->get($state);
         }
 
-        return [$this->getStatePath() => $this->getState()];
+        if ($callback = $this->dehydrateStateUsing) {
+            return [$this->getStatePath() => $this->evaluate($callback, [
+                'state' => $state,
+            ])];
+        }
+
+        return [$this->getStatePath() => $state];
     }
 
     /**
@@ -273,13 +295,15 @@ trait HasState
      */
     public function dehydrateState(array &$state, bool $isDehydrated = true): void
     {
-        if ($this instanceof Entry) {
-            return;
-        }
-
         if (! ($isDehydrated && $this->isDehydrated())) {
             if ($this->hasStatePath()) {
-                Arr::forget($state, $this->getStatePath()); /** @phpstan-ignore parameterByRef.type */
+                $statePath = $this->getStatePath();
+
+                if (! $this->getRootContainer()->hasDehydratedComponent($statePath)) {
+                    Arr::forget($state, $statePath); /** @phpstan-ignore parameterByRef.type */
+
+                    return;
+                }
 
                 return;
             }
@@ -295,18 +319,14 @@ trait HasState
             return;
         }
 
-        if (filled($this->getStatePath(isAbsolute: false))) {
-            foreach ($this->getStateToDehydrate() as $key => $value) {
-                Arr::set($state, $key, $value); /** @phpstan-ignore parameterByRef.type */
-            }
-        }
-
-        if ($this->isHiddenAndNotDehydratedWhenHidden()) {
-            return;
-        }
-
         foreach ($this->getChildSchemas(withHidden: true) as $childSchema) {
             $childSchema->dehydrateState($state, $isDehydrated);
+        }
+
+        if ($this->hasStatePath()) {
+            foreach ($this->getStateToDehydrate(Arr::get($state, $this->getStatePath())) as $key => $value) {
+                Arr::set($state, $key, $value); /** @phpstan-ignore parameterByRef.type */
+            }
         }
     }
 
@@ -320,7 +340,7 @@ trait HasState
     /**
      * @param  array<string, mixed> | null  $hydratedDefaultState
      */
-    public function hydrateState(?array &$hydratedDefaultState, bool $andCallHydrationHooks = true): void
+    public function hydrateState(?array &$hydratedDefaultState, bool $shouldCallHydrationHooks = true): void
     {
         $this->hydrateDefaultState($hydratedDefaultState);
 
@@ -339,7 +359,7 @@ trait HasState
         }
 
         foreach ($this->getChildSchemas(withHidden: true) as $childSchema) {
-            $childSchema->hydrateState($hydratedDefaultState, $andCallHydrationHooks);
+            $childSchema->hydrateState($hydratedDefaultState, $shouldCallHydrationHooks);
         }
 
         $rawState = $this->getRawState();
@@ -353,7 +373,7 @@ trait HasState
             $this->rawState($rawState);
         }
 
-        if ($andCallHydrationHooks) {
+        if ($shouldCallHydrationHooks) {
             $this->callAfterStateHydrated();
         }
     }
@@ -361,7 +381,7 @@ trait HasState
     /**
      * @param  array<string>  $statePaths
      */
-    public function hydrateStatePartially(array $statePaths, bool $andCallHydrationHooks = true): void
+    public function hydrateStatePartially(array $statePaths, bool $shouldCallHydrationHooks = true): void
     {
         if ($this->hasStatePath()) {
             $statePathToCheck = $this->getStatePath();
@@ -380,7 +400,7 @@ trait HasState
 
         if (! ($isStatePathMatching ?? false)) {
             foreach ($this->getChildSchemas(withHidden: true) as $childSchema) {
-                $childSchema->hydrateStatePartially($statePaths, $andCallHydrationHooks);
+                $childSchema->hydrateStatePartially($statePaths, $shouldCallHydrationHooks);
             }
 
             return;
@@ -399,7 +419,7 @@ trait HasState
         }
 
         foreach ($this->getChildSchemas(withHidden: true) as $childSchema) {
-            $childSchema->hydrateStatePartially($statePaths, $andCallHydrationHooks);
+            $childSchema->hydrateStatePartially($statePaths, $shouldCallHydrationHooks);
         }
 
         $rawState = $this->getRawState();
@@ -413,7 +433,7 @@ trait HasState
             $this->rawState($rawState);
         }
 
-        if ($andCallHydrationHooks) {
+        if ($shouldCallHydrationHooks) {
             $this->callAfterStateHydrated();
         }
     }
@@ -655,7 +675,11 @@ trait HasState
 
     public function isDehydrated(): bool
     {
-        return (bool) $this->evaluate($this->isDehydrated);
+        if (! $this->evaluate($this->isDehydrated)) {
+            return false;
+        }
+
+        return ! $this->isHiddenAndNotDehydratedWhenHidden();
     }
 
     public function isDehydratedWhenHidden(): bool
@@ -973,5 +997,10 @@ trait HasState
         }
 
         return $state->all();
+    }
+
+    public function shouldUpdateValidatedStateAfterBeforeStateDehydratedRuns(): bool
+    {
+        return $this->shouldUpdateValidatedStateAfterBeforeStateDehydratedRuns;
     }
 }

@@ -15,7 +15,7 @@ trait CanBeValidated
         $attributes = [];
 
         foreach ($this->getComponents(withActions: false, withHidden: true) as $component) {
-            if ($component->isHiddenAndNotDehydratedWhenHidden()) {
+            if ($component->isNeitherDehydratedNorValidated()) {
                 continue;
             }
 
@@ -23,8 +23,8 @@ trait CanBeValidated
                 $component->dehydrateValidationAttributes($attributes);
             }
 
-            foreach ($component->getChildSchemas() as $childSchema) {
-                if ($childSchema->isHidden()) {
+            foreach ($component->getChildSchemas(withHidden: true) as $childSchema) {
+                if ($childSchema->isDirectlyHidden()) {
                     continue;
                 }
 
@@ -46,7 +46,7 @@ trait CanBeValidated
         $messages = [];
 
         foreach ($this->getComponents(withActions: false, withHidden: true) as $component) {
-            if ($component->isHiddenAndNotDehydratedWhenHidden()) {
+            if ($component->isNeitherDehydratedNorValidated()) {
                 continue;
             }
 
@@ -54,8 +54,8 @@ trait CanBeValidated
                 $component->dehydrateValidationMessages($messages);
             }
 
-            foreach ($component->getChildSchemas() as $childSchema) {
-                if ($childSchema->isHidden()) {
+            foreach ($component->getChildSchemas(withHidden: true) as $childSchema) {
+                if ($childSchema->isDirectlyHidden()) {
                     continue;
                 }
 
@@ -85,8 +85,8 @@ trait CanBeValidated
                 $component->dehydrateValidationRules($rules);
             }
 
-            foreach ($component->getChildSchemas() as $childSchema) {
-                if ($childSchema->isHidden()) {
+            foreach ($component->getChildSchemas(withHidden: true) as $childSchema) {
+                if ($childSchema->isDirectlyHidden()) {
                     continue;
                 }
 

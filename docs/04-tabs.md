@@ -177,6 +177,48 @@ Tabs::make('Tabs')
 
 <UtilityInjection set="schemaComponents" version="4.x">As well as allowing a static value, the `columns()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
+## Using vertical tabs
+
+You can render the tabs vertically by using the `vertical()` method:
+
+```php
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+
+Tabs::make('Tabs')
+    ->tabs([
+        Tab::make('Tab 1')
+            ->schema([
+                // ...
+            ]),
+        Tab::make('Tab 2')
+            ->schema([
+                // ...
+            ]),
+        Tab::make('Tab 3')
+            ->schema([
+                // ...
+            ]),
+    ])
+    ->vertical()
+```
+
+<AutoScreenshot name="schemas/layout/tabs/vertical" alt="Vertical tabs" version="4.x" />
+
+Optionally, you can pass a boolean value to the `vertical()` method to control if the tabs should be rendered vertically or not:
+
+```php
+use Filament\Schemas\Components\Tabs;
+
+Tabs::make('Tabs')
+    ->tabs([
+        // ...
+    ])
+    ->vertical(FeatureFlag::active())
+```
+
+<UtilityInjection set="schemaComponents" version="4.x">As well as allowing a static value, the `vertical()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+
 ## Removing the styled container
 
 By default, tabs and their content are wrapped in a container styled as a card. You may remove the styled container using `contained()`:

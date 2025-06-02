@@ -9,6 +9,7 @@ use Filament\Schemas\Components\Concerns\EntanglesStateWithSingularRelationship;
 use Filament\Schemas\Components\Contracts\CanEntangleWithSingularRelationships;
 use Filament\Schemas\Components\Contracts\ExposesStateToActionData;
 use Filament\Schemas\Schema;
+use Illuminate\Contracts\Support\Htmlable;
 
 class Form extends Component implements CanEntangleWithSingularRelationships, ExposesStateToActionData
 {
@@ -68,9 +69,9 @@ class Form extends Component implements CanEntangleWithSingularRelationships, Ex
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Schema | Component | Action | ActionGroup | string | Closure | null  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
      */
-    public function header(array | Schema | Component | Action | ActionGroup | string | Closure | null $components): static
+    public function header(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
     {
         $this->childComponents($components, static::HEADER_SCHEMA_KEY);
 
@@ -78,9 +79,9 @@ class Form extends Component implements CanEntangleWithSingularRelationships, Ex
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Schema | Component | Action | ActionGroup | string | Closure | null  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
      */
-    public function footer(array | Schema | Component | Action | ActionGroup | string | Closure | null $components): static
+    public function footer(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
     {
         $this->childComponents($components, static::FOOTER_SCHEMA_KEY);
 

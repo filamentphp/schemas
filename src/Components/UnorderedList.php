@@ -6,6 +6,7 @@ use Closure;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\TextSize;
+use Illuminate\Contracts\Support\Htmlable;
 
 class UnorderedList extends Component
 {
@@ -14,7 +15,7 @@ class UnorderedList extends Component
     protected TextSize | string | Closure | null $size = null;
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Closure  $schema
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Closure  $schema
      */
     final public function __construct(array | Closure $schema = [])
     {
@@ -22,7 +23,7 @@ class UnorderedList extends Component
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Closure  $schema
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Closure  $schema
      */
     public static function make(array | Closure $schema = []): static
     {

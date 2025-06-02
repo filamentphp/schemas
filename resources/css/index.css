@@ -1,6 +1,7 @@
 @import './components/actions.css' layer(components);
 @import './components/flex.css' layer(components);
 @import './components/form.css' layer(components);
+@import './components/fused-group.css' layer(components);
 @import './components/icon.css' layer(components);
 @import './components/image.css' layer(components);
 @import './components/section.css' layer(components);

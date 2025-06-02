@@ -78,7 +78,7 @@ trait BelongsToModel
         $this->evaluate($callback);
     }
 
-    public function loadStateFromRelationships(bool $andHydrate = false): void
+    public function loadStateFromRelationships(bool $shouldHydrate = false): void
     {
         $callback = $this->loadStateFromRelationshipsUsing;
 
@@ -92,7 +92,7 @@ trait BelongsToModel
 
         $this->evaluate($callback);
 
-        if ($andHydrate) {
+        if ($shouldHydrate) {
             $this->callAfterStateHydrated();
 
             foreach ($this->getChildSchemas() as $childSchema) {

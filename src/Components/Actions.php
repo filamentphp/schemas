@@ -10,6 +10,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Concerns\HasAlignment;
 use Filament\Support\Concerns\HasVerticalAlignment;
 use Filament\Support\Enums\Size;
+use Illuminate\Contracts\Support\Htmlable;
 
 class Actions extends Component
 {
@@ -88,9 +89,9 @@ class Actions extends Component
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Closure | null  $components
+     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
      */
-    public function beforeLabel(array | Schema | Component | Action | ActionGroup | string | Closure | null $components): static
+    public function beforeLabel(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
     {
         $this->childComponents($components, static::BEFORE_LABEL_SCHEMA_KEY);
 
@@ -98,9 +99,9 @@ class Actions extends Component
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Closure | null  $components
+     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
      */
-    public function afterLabel(array | Schema | Component | Action | ActionGroup | string | Closure | null $components): static
+    public function afterLabel(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
     {
         $this->childComponents($components, static::AFTER_LABEL_SCHEMA_KEY);
 
@@ -108,9 +109,9 @@ class Actions extends Component
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Closure | null  $components
+     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
      */
-    public function aboveContent(array | Schema | Component | Action | ActionGroup | string | Closure | null $components): static
+    public function aboveContent(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
     {
         $this->childComponents($components, static::ABOVE_CONTENT_SCHEMA_KEY);
 
@@ -118,9 +119,9 @@ class Actions extends Component
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Closure | null  $components
+     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
      */
-    public function belowContent(array | Schema | Component | Action | ActionGroup | string | Closure | null $components): static
+    public function belowContent(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
     {
         $this->childComponents($components, static::BELOW_CONTENT_SCHEMA_KEY);
 

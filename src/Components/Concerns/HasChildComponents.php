@@ -7,16 +7,17 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
+use Illuminate\Contracts\Support\Htmlable;
 
 trait HasChildComponents
 {
     /**
-     * @var array<string, array<Component | Action | ActionGroup | string> | Schema | Component | Action | ActionGroup | string | Closure | null>
+     * @var array<string, array<Component | Action | ActionGroup | string | Htmlable> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null>
      */
     protected array $childComponents = [];
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Closure  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Closure  $components
      */
     public function components(array | Closure $components): static
     {
@@ -26,9 +27,9 @@ trait HasChildComponents
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Schema | Component | Action | ActionGroup | string | Closure | null  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
      */
-    public function childComponents(array | Schema | Component | Action | ActionGroup | string | Closure | null $components, string $key = 'default'): static
+    public function childComponents(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components, string $key = 'default'): static
     {
         $this->childComponents[$key] = $components;
 
@@ -36,7 +37,7 @@ trait HasChildComponents
     }
 
     /**
-     * @param  array<Component | Action | ActionGroup | string> | Closure  $components
+     * @param  array<Component | Action | ActionGroup | string | Htmlable> | Closure  $components
      */
     public function schema(array | Closure $components): static
     {
@@ -46,7 +47,7 @@ trait HasChildComponents
     }
 
     /**
-     * @return array<Component | Action | ActionGroup | string>
+     * @return array<Component | Action | ActionGroup>
      */
     public function getChildComponents(?string $key = null): array
     {
@@ -54,7 +55,7 @@ trait HasChildComponents
     }
 
     /**
-     * @return array<Component | Action | ActionGroup | string>
+     * @return array<Component | Action | ActionGroup | string | Htmlable>
      */
     public function getDefaultChildComponents(): array
     {
@@ -174,7 +175,7 @@ trait HasChildComponents
         foreach ($this->childComponents as $key => $childComponents) {
             if (is_array($childComponents)) {
                 $this->childComponents[$key] = array_map(
-                    fn (Component | Action | ActionGroup | string $component): Component | Action | ActionGroup | string => match (true) {
+                    fn (Component | Action | ActionGroup | string | Htmlable $component): Component | Action | ActionGroup | string | Htmlable => match (true) {
                         $component instanceof Component, $component instanceof Action, $component instanceof ActionGroup => $component->getClone(),
                         default => $component,
                     },

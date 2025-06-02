@@ -156,7 +156,7 @@ trait EntanglesStateWithSingularRelationship
         $record = $this->getCachedExistingRecord();
 
         if (! $record) {
-            $this->getChildSchema()->fill(andCallHydrationHooks: false, andFillStateWithNull: false);
+            $this->getChildSchema()->fill(shouldCallHydrationHooks: false, shouldFillStateWithNull: false);
 
             return;
         }
@@ -165,7 +165,7 @@ trait EntanglesStateWithSingularRelationship
             $this->getStateFromRelatedRecord($record),
         );
 
-        $this->getChildSchema()->fill($data, andCallHydrationHooks: false, andFillStateWithNull: false);
+        $this->getChildSchema()->fill($data, shouldCallHydrationHooks: false, shouldFillStateWithNull: false);
     }
 
     /**

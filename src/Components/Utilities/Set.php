@@ -23,7 +23,7 @@ class Set
 
         if ($component) {
             $component->state($state);
-            $shouldCallUpdatedHooks && $component->callAfterStateUpdatedHooks();
+            $shouldCallUpdatedHooks && $component->callAfterStateUpdated();
         } else {
             data_set(
                 $livewire,
