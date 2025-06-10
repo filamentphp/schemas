@@ -6,10 +6,9 @@ use BackedEnum;
 use Closure;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Concerns\HasLabel;
-use Filament\Schemas\Components\Contracts\CanConcealComponents;
 use Illuminate\Support\Str;
 
-class Step extends Component implements CanConcealComponents
+class Step extends Component
 {
     use HasLabel;
 
@@ -126,11 +125,6 @@ class Step extends Component implements CanConcealComponents
     public function getColumnsConfig(): array
     {
         return $this->columns ?? $this->getContainer()->getColumnsConfig();
-    }
-
-    public function canConcealComponents(): bool
-    {
-        return true;
     }
 
     public function formWrapper(bool | Closure $condition = true): static

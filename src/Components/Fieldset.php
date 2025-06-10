@@ -7,10 +7,12 @@ use Filament\Forms\Components\Concerns\CanBeMarkedAsRequired;
 use Filament\Schemas\Components\Concerns\EntanglesStateWithSingularRelationship;
 use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Contracts\CanEntangleWithSingularRelationships;
+use Filament\Support\Concerns\CanBeContained;
 use Illuminate\Contracts\Support\Htmlable;
 
 class Fieldset extends Component implements CanEntangleWithSingularRelationships
 {
+    use CanBeContained;
     use CanBeMarkedAsRequired;
     use EntanglesStateWithSingularRelationship;
     use HasLabel;

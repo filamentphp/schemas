@@ -175,6 +175,24 @@ Fieldset::make('Label')
 
 <AutoScreenshot name="schemas/layout/fieldset/simple" alt="Fieldset" version="4.x" />
 
+### Removing the border from a fieldset
+
+You can remove the container border from a fieldset using the `contained(false)` method:
+
+```php
+use Filament\Schemas\Components\Fieldset;
+
+Fieldset::make('Label')
+    ->contained(false)
+    ->schema([
+        // ...
+    ])
+```
+
+<UtilityInjection set="schemaComponents" version="4.x">As well as allowing a static value, the `contained()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+
+<AutoScreenshot name="schemas/layout/fieldset/not-contained" alt="Fieldset without a container border" version="4.x" />
+
 ## Using container queries
 
 In addition to traditional breakpoints based on the size of the viewport, you can also use [container queries](https://tailwindcss.com/docs/responsive-design#container-queries) to create responsive layouts based on the size of a parent container. This is particularly useful when the size of the parent container is not directly tied to the size of the viewport. For example, when using a collapsible sidebar alongside the content, the content area dynamically adjusts its size depending on the collapse state of the sidebar.

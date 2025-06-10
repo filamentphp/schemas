@@ -8,7 +8,7 @@ export default function tabsSchemaComponent({
     return {
         tab,
 
-        init: function () {
+        init() {
             this.$watch('tab', () => this.updateQueryString())
 
             const tabs = this.getTabs()
@@ -37,7 +37,7 @@ export default function tabsSchemaComponent({
             )
         },
 
-        getTabs: function () {
+        getTabs() {
             if (!this.$refs.tabsData) {
                 return []
             }
@@ -45,7 +45,7 @@ export default function tabsSchemaComponent({
             return JSON.parse(this.$refs.tabsData.value)
         },
 
-        updateQueryString: function () {
+        updateQueryString() {
             if (!isTabPersistedInQueryString) {
                 return
             }

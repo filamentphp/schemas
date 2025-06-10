@@ -3,9 +3,11 @@
     $id = $getId();
     $isLabelHidden = $isLabelHidden();
     $label = $getLabel();
+    $isContained = $isContained();
 @endphp
 
 <x-filament::fieldset
+    :contained="$isContained"
     :label="$label"
     :label-hidden="$isLabelHidden"
     :required="isset($isMarkedAsRequired) ? $isMarkedAsRequired() : false"

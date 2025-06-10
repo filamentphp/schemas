@@ -187,7 +187,7 @@ trait HasState
         }
 
         if ($shouldBubbleToParents) {
-            $this->getContainer()->getParentComponent()->callAfterStateUpdated();
+            $this->getContainer()->getParentComponent()?->callAfterStateUpdated();
         }
 
         return $this;

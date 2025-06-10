@@ -6,7 +6,6 @@ use BackedEnum;
 use Closure;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Concerns\HasLabel;
-use Filament\Schemas\Components\Contracts\CanConcealComponents;
 use Filament\Support\Concerns\HasBadge;
 use Filament\Support\Concerns\HasBadgeTooltip;
 use Filament\Support\Concerns\HasIcon;
@@ -17,7 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Tab extends Component implements CanConcealComponents
+class Tab extends Component
 {
     use HasBadge;
     use HasBadgeTooltip;
@@ -62,11 +61,6 @@ class Tab extends Component implements CanConcealComponents
     public function getColumnsConfig(): array
     {
         return $this->columns ?? $this->getContainer()->getColumnsConfig();
-    }
-
-    public function canConcealComponents(): bool
-    {
-        return true;
     }
 
     public function query(?Closure $callback): static

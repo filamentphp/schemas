@@ -8,7 +8,7 @@ export default function wizardSchemaComponent({
     return {
         step: null,
 
-        init: function () {
+        init() {
             this.$watch('step', () => this.updateQueryString())
 
             this.step = this.getSteps().at(startStep - 1)
@@ -16,13 +16,13 @@ export default function wizardSchemaComponent({
             this.autofocusFields()
         },
 
-        requestNextStep: async function () {
+        async requestNextStep() {
             await this.$wire.callSchemaComponentMethod(key, 'nextStep', {
                 currentStepIndex: this.getStepIndex(this.step),
             })
         },
 
-        goToNextStep: function () {
+        goToNextStep() {
             let nextStepIndex = this.getStepIndex(this.step) + 1
 
             if (nextStepIndex >= this.getSteps().length) {
@@ -35,7 +35,7 @@ export default function wizardSchemaComponent({
             this.scroll()
         },
 
-        goToPreviousStep: function () {
+        goToPreviousStep() {
             let previousStepIndex = this.getStepIndex(this.step) - 1
 
             if (previousStepIndex < 0) {
@@ -48,7 +48,7 @@ export default function wizardSchemaComponent({
             this.scroll()
         },
 
-        scroll: function () {
+        scroll() {
             this.$nextTick(() => {
                 this.$refs.header.children[
                     this.getStepIndex(this.step)
@@ -56,7 +56,7 @@ export default function wizardSchemaComponent({
             })
         },
 
-        autofocusFields: function () {
+        autofocusFields() {
             this.$nextTick(() =>
                 this.$refs[`step-${this.step}`]
                     .querySelector('[autofocus]')
@@ -64,7 +64,7 @@ export default function wizardSchemaComponent({
             )
         },
 
-        getStepIndex: function (step) {
+        getStepIndex(step) {
             let index = this.getSteps().findIndex(
                 (indexedStep) => indexedStep === step,
             )
@@ -76,26 +76,26 @@ export default function wizardSchemaComponent({
             return index
         },
 
-        getSteps: function () {
+        getSteps() {
             return JSON.parse(this.$refs.stepsData.value)
         },
 
-        isFirstStep: function () {
+        isFirstStep() {
             return this.getStepIndex(this.step) <= 0
         },
 
-        isLastStep: function () {
+        isLastStep() {
             return this.getStepIndex(this.step) + 1 >= this.getSteps().length
         },
 
-        isStepAccessible: function (stepKey) {
+        isStepAccessible(stepKey) {
             return (
                 isSkippable ||
                 this.getStepIndex(this.step) > this.getStepIndex(stepKey)
             )
         },
 
-        updateQueryString: function () {
+        updateQueryString() {
             if (!isStepPersistedInQueryString) {
                 return
             }

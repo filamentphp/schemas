@@ -4,7 +4,6 @@ namespace Filament\Schemas\Components;
 
 use Filament\Schemas\Components\Concerns\BelongsToContainer;
 use Filament\Schemas\Components\Concerns\BelongsToModel;
-use Filament\Schemas\Components\Concerns\CanBeConcealed;
 use Filament\Schemas\Components\Concerns\CanBeDisabled;
 use Filament\Schemas\Components\Concerns\CanBeGridContainer;
 use Filament\Schemas\Components\Concerns\CanBeHidden;
@@ -41,7 +40,6 @@ class Component extends ViewComponent
 {
     use BelongsToContainer;
     use BelongsToModel;
-    use CanBeConcealed;
     use CanBeDisabled;
     use CanBeGridContainer;
     use CanBeHidden;

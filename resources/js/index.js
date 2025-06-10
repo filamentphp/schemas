@@ -39,7 +39,7 @@ const findClosestLivewireComponent = (el) => {
 
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('filamentSchema', ({ livewireId }) => ({
-        handleFormValidationError: function (event) {
+        handleFormValidationError(event) {
             if (event.detail.livewireId !== livewireId) {
                 return
             }

@@ -4,7 +4,7 @@
 
     $errorMessage = null;
 
-    foreach ($getDefaultChildComponents() as $childComponent) {
+    foreach ($getChildComponentContainer()->getComponents() as $childComponent) {
         if (! ($childComponent instanceof Field)) {
             continue;
         }

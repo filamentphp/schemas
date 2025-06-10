@@ -1,11 +1,11 @@
 export default () => ({
     isSticky: false,
 
-    init: function () {
+    init() {
         this.evaluatePageScrollPosition()
     },
 
-    evaluatePageScrollPosition: function () {
+    evaluatePageScrollPosition() {
         const rect = this.$el.getBoundingClientRect()
 
         const isBelowViewport = rect.top > window.innerHeight

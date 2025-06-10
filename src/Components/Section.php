@@ -15,7 +15,6 @@ use Filament\Schemas\Components\Concerns\HasFooterActions;
 use Filament\Schemas\Components\Concerns\HasHeaderActions;
 use Filament\Schemas\Components\Concerns\HasHeading;
 use Filament\Schemas\Components\Concerns\HasLabel;
-use Filament\Schemas\Components\Contracts\CanConcealComponents;
 use Filament\Schemas\Components\Contracts\CanEntangleWithSingularRelationships;
 use Filament\Schemas\Schema;
 use Filament\Support\Concerns\CanBeContained;
@@ -28,7 +27,7 @@ use Filament\Support\Enums\Size;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
 
-class Section extends Component implements CanConcealComponents, CanEntangleWithSingularRelationships
+class Section extends Component implements CanEntangleWithSingularRelationships
 {
     use CanBeCollapsed;
     use CanBeCompact;
@@ -120,11 +119,6 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
         $this->isAside = $condition;
 
         return $this;
-    }
-
-    public function canConcealComponents(): bool
-    {
-        return $this->isCollapsible();
     }
 
     public function isAside(): bool
