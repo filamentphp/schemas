@@ -32,7 +32,7 @@ trait CanOpenUrl
                 ? $this->evaluate($this->url, [
                     'state' => $state,
                 ])
-                : null;
+                : $this->evaluate($this->url);
         }
 
         if ($this->hasStateBasedUrls()) {

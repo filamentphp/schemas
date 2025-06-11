@@ -312,7 +312,7 @@ trait HasState
             // we need to dehydrate the child component containers while
             // informing them that they are not dehydrated, so that their
             // child components get removed from the state.
-            foreach ($this->getChildSchemas() as $childSchema) {
+            foreach ($this->getChildSchemas(withHidden: true) as $childSchema) {
                 $childSchema->dehydrateState($state, isDehydrated: false);
             }
 
