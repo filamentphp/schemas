@@ -16,7 +16,7 @@
     }
 
     &:not(.fi-badge) {
-        @apply text-sm break-words text-gray-600 dark:text-gray-400;
+        @apply inline-block text-sm break-words text-gray-600 dark:text-gray-400;
 
         &.fi-font-thin {
             @apply font-thin;

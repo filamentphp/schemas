@@ -175,6 +175,8 @@ trait HasComponents
                     }
                 }
             }
+
+            return null;
         }
 
         if (! is_string($findComponentUsing)) {

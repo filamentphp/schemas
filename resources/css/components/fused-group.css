@@ -1,18 +1,4 @@
 .fi-sc-fused-group {
-    @apply flex h-full flex-col gap-2;
-
-    & .fi-sc-fused-group-label-ctn {
-        @apply flex items-center gap-x-3;
-
-        & .fi-sc-fused-group-label {
-            @apply text-sm leading-6 font-medium text-gray-950 dark:text-white;
-
-            & .fi-sc-fused-group-label-required-mark {
-                @apply text-danger-600 dark:text-danger-400 font-medium;
-            }
-        }
-    }
-
     & > .fi-sc {
         @apply focus-within:ring-primary-600 dark:focus-within:ring-primary-500 shadow-sm ring-1 ring-gray-950/10 focus-within:ring-2 dark:ring-white/20;
     }
@@ -273,9 +259,5 @@
                 @apply focus-within:ring-0;
             }
         }
-    }
-
-    & .fi-sc-fused-group-error-message {
-        @apply text-danger-600 dark:text-danger-400 text-sm;
     }
 }

@@ -6,6 +6,7 @@ use Closure;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Concerns\CanBeMarkedAsRequired;
+use Filament\Forms\Components\Concerns\HasExtraFieldWrapperAttributes;
 use Filament\Forms\Components\Field;
 use Filament\Schemas\Components\Concerns\EntanglesStateWithSingularRelationship;
 use Filament\Schemas\Components\Concerns\HasLabel;
@@ -18,6 +19,7 @@ class FusedGroup extends Component implements CanEntangleWithSingularRelationshi
 {
     use CanBeMarkedAsRequired;
     use EntanglesStateWithSingularRelationship;
+    use HasExtraFieldWrapperAttributes;
     use HasLabel;
 
     /**
@@ -25,9 +27,17 @@ class FusedGroup extends Component implements CanEntangleWithSingularRelationshi
      */
     protected string $view = 'filament-schemas::components.fused-group';
 
+    const ABOVE_LABEL_SCHEMA_KEY = 'above_label';
+
+    const BELOW_LABEL_SCHEMA_KEY = 'below_label';
+
     const BEFORE_LABEL_SCHEMA_KEY = 'before_label';
 
     const AFTER_LABEL_SCHEMA_KEY = 'after_label';
+
+    const BEFORE_CONTENT_SCHEMA_KEY = 'before_content';
+
+    const AFTER_CONTENT_SCHEMA_KEY = 'after_content';
 
     const ABOVE_CONTENT_SCHEMA_KEY = 'above_content';
 
@@ -60,8 +70,27 @@ class FusedGroup extends Component implements CanEntangleWithSingularRelationshi
     {
         parent::setUp();
 
-        $this->fieldWrapperView('filament-forms::plain-field-wrapper');
         $this->gap(false);
+    }
+
+    /**
+     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
+     */
+    public function aboveLabel(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
+    {
+        $this->childComponents($components, static::ABOVE_LABEL_SCHEMA_KEY);
+
+        return $this;
+    }
+
+    /**
+     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
+     */
+    public function belowLabel(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
+    {
+        $this->childComponents($components, static::BELOW_LABEL_SCHEMA_KEY);
+
+        return $this;
     }
 
     /**
@@ -80,6 +109,26 @@ class FusedGroup extends Component implements CanEntangleWithSingularRelationshi
     public function afterLabel(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
     {
         $this->childComponents($components, static::AFTER_LABEL_SCHEMA_KEY);
+
+        return $this;
+    }
+
+    /**
+     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
+     */
+    public function beforeContent(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
+    {
+        $this->childComponents($components, static::BEFORE_CONTENT_SCHEMA_KEY);
+
+        return $this;
+    }
+
+    /**
+     * @param  array<Component | Action | ActionGroup> | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null  $components
+     */
+    public function afterContent(array | Schema | Component | Action | ActionGroup | string | Htmlable | Closure | null $components): static
+    {
+        $this->childComponents($components, static::AFTER_CONTENT_SCHEMA_KEY);
 
         return $this;
     }
@@ -131,6 +180,8 @@ class FusedGroup extends Component implements CanEntangleWithSingularRelationshi
         if ($key === static::AFTER_LABEL_SCHEMA_KEY) {
             $schema->alignEnd();
         }
+
+        $schema->fieldWrapperView('filament-forms::plain-field-wrapper');
 
         return $schema;
     }
