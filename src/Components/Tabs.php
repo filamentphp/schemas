@@ -59,13 +59,15 @@ class Tabs extends Component
         parent::setUp();
 
         $this->key(function (Tabs $component): ?string {
-            $label = $component->getLabel();
+            $label = $this->getLabel();
 
             if (blank($label)) {
                 return null;
             }
 
-            return Str::slug(Str::transliterate($label, strict: true));
+            $statePath = $component->getStatePath();
+
+            return Str::slug(Str::transliterate($label, strict: true)) . '::' . (filled($statePath) ? "{$statePath}::tabs" : 'tabs');
         });
     }
 

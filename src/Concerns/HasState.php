@@ -126,7 +126,7 @@ trait HasState
         } finally {
             if ($this->shouldPartiallyRender($path)) {
                 app(PartialsComponentHook::class)->renderPartial($this->getLivewire(), fn (): array => [
-                    "schema.{$this->getKey()}" => $this->render(),
+                    "schema.{$this->getKey()}" => $this->toHtml(),
                 ]);
             }
         }

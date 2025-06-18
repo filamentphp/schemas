@@ -12,6 +12,7 @@ use Filament\Support\Concerns;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Exceptions\Halt;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Str;
 use Livewire\Component as LivewireComponent;
 
 class Wizard extends Component
@@ -68,7 +69,16 @@ class Wizard extends Component
     {
         parent::setUp();
 
-        $this->key('wizard');
+        $this->key(function (Wizard $component): string {
+            $statePath = $component->getStatePath();
+            $label = $this->getLabel();
+
+            if (blank($label)) {
+                return filled($statePath) ? "{$statePath}::wizard" : 'wizard';
+            }
+
+            return Str::slug(Str::transliterate($label, strict: true)) . '::' . (filled($statePath) ? "{$statePath}::wizard" : 'wizard');
+        });
 
         $this->currentStepIndex($this->getStartStep() - 1);
 
