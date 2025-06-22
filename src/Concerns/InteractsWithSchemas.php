@@ -28,6 +28,9 @@ trait InteractsWithSchemas
      */
     public array $componentFileAttachments = [];
 
+    #[Locked]
+    public bool $areSchemaStateUpdateHooksDisabledForTesting = false;
+
     /**
      * @var array<string, mixed>
      */
@@ -124,9 +127,31 @@ trait InteractsWithSchemas
 
     public function updatedInteractsWithSchemas(string $statePath): void
     {
+        if (app()->runningUnitTests() && $this->areSchemaStateUpdateHooksDisabledForTesting) {
+            return;
+        }
+
         foreach ($this->getCachedSchemas() as $schema) {
             $schema->callAfterStateUpdated($statePath);
         }
+    }
+
+    public function disableSchemaStateUpdateHooksForTesting(): void
+    {
+        if (! app()->runningUnitTests()) {
+            return;
+        }
+
+        $this->areSchemaStateUpdateHooksDisabledForTesting = true;
+    }
+
+    public function enableSchemaStateUpdateHooksForTesting(): void
+    {
+        if (! app()->runningUnitTests()) {
+            return;
+        }
+
+        $this->areSchemaStateUpdateHooksDisabledForTesting = false;
     }
 
     public function getSchemaComponent(string $key, bool $withHidden = false, ?Component $skipComponentChildContainersWhileSearching = null): Component | Action | ActionGroup | null

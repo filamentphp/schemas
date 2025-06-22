@@ -2,19 +2,20 @@
 
 namespace Filament\Schemas\Concerns;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 
 trait BelongsToModel
 {
     /**
-     * @var Model | array<string, mixed> | class-string<Model> | null
+     * @var Model | array<string, mixed> | class-string<Model> | Closure | null
      */
-    public Model | array | string | null $model = null;
+    public Model | array | string | Closure | null $model = null;
 
     /**
-     * @param  Model | array<string, mixed> | class-string<Model> | null  $model
+     * @param  Model | array<string, mixed> | class-string<Model> | Closure | null  $model
      */
-    public function model(Model | array | string | null $model = null): static
+    public function model(Model | array | string | Closure | null $model = null): static
     {
         $this->model = $model;
 
@@ -22,9 +23,9 @@ trait BelongsToModel
     }
 
     /**
-     * @param  Model | array<string, mixed> | null  $record
+     * @param  Model | array<string, mixed> | Closure | null  $record
      */
-    public function record(Model | array | null $record): static
+    public function record(Model | array | Closure | null $record): static
     {
         $this->model($record);
 
@@ -66,18 +67,18 @@ trait BelongsToModel
      */
     public function getModel(): ?string
     {
-        $model = $this->model;
+        $this->model = $this->evaluate($this->model);
 
-        if ($model instanceof Model) {
-            return $model::class;
+        if ($this->model instanceof Model) {
+            return $this->model::class;
         }
 
-        if (is_array($model)) {
+        if (is_array($this->model)) {
             return null;
         }
 
-        if (filled($model)) {
-            return $model;
+        if (filled($this->model)) {
+            return $this->model;
         }
 
         return $this->getParentComponent()?->getModel();
@@ -88,13 +89,13 @@ trait BelongsToModel
      */
     public function getRecord(bool $withParentComponentRecord = true): Model | array | null
     {
-        $model = $this->model;
+        $this->model = $this->evaluate($this->model);
 
-        if (($model instanceof Model) || is_array($model)) {
-            return $model;
+        if (($this->model instanceof Model) || is_array($this->model)) {
+            return $this->model;
         }
 
-        if (is_string($model)) {
+        if (is_string($this->model)) {
             return null;
         }
 
@@ -107,16 +108,16 @@ trait BelongsToModel
 
     public function getModelInstance(): ?Model
     {
-        $model = $this->model;
+        $this->model = $this->evaluate($this->model);
 
-        if (($model === null) || is_array($model)) {
+        if (($this->model === null) || is_array($this->model)) {
             return $this->getParentComponent()?->getModelInstance();
         }
 
-        if ($model instanceof Model) {
-            return $model;
+        if ($this->model instanceof Model) {
+            return $this->model;
         }
 
-        return app($model);
+        return app($this->model);
     }
 }
