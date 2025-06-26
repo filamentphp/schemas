@@ -42,7 +42,7 @@ trait HasColumns
      */
     public function getColumns(?string $breakpoint = null): array | int | null
     {
-        $columns = $this->getColumnsConfig();
+        $columns = $this->getAllColumns();
 
         if ($breakpoint !== null) {
             return $columns[$breakpoint] ?? null;
@@ -54,10 +54,10 @@ trait HasColumns
     /**
      * @return array<string, ?int>
      */
-    public function getColumnsConfig(): array
+    public function getAllColumns(): array
     {
         if ($this instanceof Schema && $this->getParentComponent()) {
-            return $this->getParentComponent()->getColumnsConfig();
+            return $this->getParentComponent()->getAllColumns();
         }
 
         $columns = $this->columns ?? [

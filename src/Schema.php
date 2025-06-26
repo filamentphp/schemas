@@ -219,7 +219,7 @@ class Schema extends ViewComponent implements HasEmbeddedView
                     $attributes = (new ComponentAttributeBag)
                         ->when(
                             ! $isInline,
-                            fn (ComponentAttributeBag $attributes) => $attributes->gridColumn($schemaComponent->getColumnSpan(), $schemaComponent->getColumnStart(), ! $isSchemaComponentVisible),
+                            fn (ComponentAttributeBag $attributes) => $attributes->gridColumn($schemaComponent->getColumnSpan(), $schemaComponent->getColumnStart(), $schemaComponent->getColumnOrder(), ! $isSchemaComponentVisible),
                         )
                         ->merge([
                             'wire:key' => $schemaComponent->getLivewireKey(),

@@ -31,6 +31,7 @@ use Filament\Schemas\Concerns\HasGap;
 use Filament\Schemas\Concerns\HasStateBindingModifiers;
 use Filament\Support\Components\ViewComponent;
 use Filament\Support\Concerns\CanGrow;
+use Filament\Support\Concerns\CanOrderColumns;
 use Filament\Support\Concerns\CanSpanColumns;
 use Filament\Support\Concerns\HasExtraAttributes;
 use Illuminate\Database\Eloquent\Model;
@@ -48,6 +49,7 @@ class Component extends ViewComponent
     use CanBeLiberatedFromContainerGrid;
     use CanBeRepeated;
     use CanGrow;
+    use CanOrderColumns;
     use CanPartiallyRender;
     use CanPoll;
     use CanSpanColumns;

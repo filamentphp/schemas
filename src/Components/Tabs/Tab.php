@@ -64,9 +64,9 @@ class Tab extends Component implements CanConcealComponents
     /**
      * @return array<string, int | null>
      */
-    public function getColumnsConfig(): array
+    public function getAllColumns(): array
     {
-        return $this->columns ?? $this->getContainer()->getColumnsConfig();
+        return $this->columns ?? $this->getContainer()->getAllColumns();
     }
 
     public function canConcealComponents(): bool

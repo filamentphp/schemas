@@ -71,6 +71,64 @@ In this example, the grid has 3 columns on small devices, 6 columns on extra lar
 
 <UtilityInjection set="schemaComponents" version="4.x">As well as allowing a static value, the `columnStart()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
+### Grid column ordering
+
+If you want to control the visual order of components in a grid without changing their position in the markup, you can use the `columnOrder()` method. This method accepts an integer, a closure, or an array of breakpoints and order values:
+
+- `columnOrder(2)` will set the component's order to 2 on all breakpoints.
+- `columnOrder(['md' => 2, 'xl' => 4])` will set the component's order to 2 on medium devices, and to 4 on extra large devices. The default breakpoint for smaller devices uses the default order, unless you use a `default` array key.
+- `columnOrder(fn () => 1)` will dynamically calculate the order using a closure.
+
+```php
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\TextInput;
+
+Grid::make()
+    ->columns(3)
+    ->schema([
+        TextInput::make('first')
+            ->columnOrder(3), // This will appear last
+        TextInput::make('second')
+            ->columnOrder(1), // This will appear first
+        TextInput::make('third')
+            ->columnOrder(2), // This will appear second
+    ])
+```
+
+You can also use responsive ordering to change the visual order of components based on the screen size:
+
+```php
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\TextInput;
+
+Grid::make()
+    ->columns([
+        'sm' => 2,
+        'lg' => 3,
+    ])
+    ->schema([
+        TextInput::make('title')
+            ->columnOrder([
+                'default' => 1,
+                'lg' => 3,
+            ]),
+        TextInput::make('description')
+            ->columnOrder([
+                'default' => 2,
+                'lg' => 1,
+            ]),
+        TextInput::make('category')
+            ->columnOrder([
+                'default' => 3,
+                'lg' => 2,
+            ]),
+    ])
+```
+
+In this example, on small screens the order will be: title, description, category. On large screens, the order will be: description, category, title.
+
+<UtilityInjection set="schemaComponents" version="4.x">As well as allowing a static value, the `columnOrder()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+
 ### An example of a responsive grid layout
 
 In this example, we have a schema with a [section](sections) layout component. Since all layout components support the `columns()` method, we can use it to create a responsive grid layout within the section itself.
