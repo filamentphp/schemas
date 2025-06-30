@@ -867,7 +867,13 @@ trait HasState
 
     public function getRawState(): mixed
     {
-        $state = data_get($this->getLivewire(), $this->getStatePath());
+        $statePath = $this->getStatePath();
+
+        if (blank($statePath)) {
+            return [];
+        }
+
+        $state = data_get($this->getLivewire(), $statePath);
 
         if ((! is_array($state)) && blank($state)) {
             $state = null;
