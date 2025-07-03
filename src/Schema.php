@@ -249,7 +249,7 @@ class Schema extends ViewComponent implements HasEmbeddedView
                             })"
                             <?php if ($afterStateUpdatedJs = $schemaComponent->getAfterStateUpdatedJs()) { ?>
                                 x-init="<?= implode(';', array_map(
-                                    fn (string $js): string => '$wire.watch(' . Js::from($schemaComponentStatePath) . ', ($state, $old) => eval(' . Js::from($js) . '))',
+                                    fn (string $js): string => '$wire.watch(' . Js::from($schemaComponentStatePath) . ', ($state, $old) => ($state !== undefined) && eval(' . Js::from($js) . '))',
                                     $afterStateUpdatedJs,
                                 )) ?>"
                             <?php } ?>
