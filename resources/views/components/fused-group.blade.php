@@ -21,6 +21,7 @@
         if ($errors->has($statePath)) {
             if ($childComponent->shouldShowAllValidationMessages()) {
                 $errorMessages = $errors->get($statePath);
+                $shouldShowAllValidationMessages = true;
             } else {
                 $errorMessage = $errors->first($statePath);
             }
@@ -35,7 +36,13 @@
         }
 
         if ($errors->has("{$statePath}.*")) {
-            $errorMessage = $errors->first("{$statePath}.*");
+            if ($childComponent->shouldShowAllValidationMessages()) {
+                $errorMessages = $errors->get("{$statePath}.*");
+                $shouldShowAllValidationMessages = true;
+            } else {
+                $errorMessage = $errors->first("{$statePath}.*");
+            }
+
             $areHtmlValidationMessagesAllowed = $childComponent->areHtmlValidationMessagesAllowed();
 
             break;
@@ -48,6 +55,7 @@
     :error-message="$errorMessage"
     :error-messages="$errorMessages"
     :are-html-error-messages-allowed="$areHtmlValidationMessagesAllowed ?? false"
+    :should-show-all-validation-messages="$shouldShowAllValidationMessages ?? false"
     :field="$schemaComponent"
 >
     <div
