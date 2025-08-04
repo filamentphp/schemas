@@ -214,7 +214,7 @@ class Schema extends ViewComponent implements HasEmbeddedView
                          * diffing issues.
                          *
                          * Additionally, any `<div>` elements that wrap hidden
-                         * components need to have `class="hidden"`, so that they
+                         * components need to have `class="fi-hidden"`, so that they
                          * don't consume grid space.
                          */
                         $hiddenJs = $schemaComponent->getHiddenJs();

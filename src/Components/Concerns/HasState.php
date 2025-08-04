@@ -485,7 +485,6 @@ trait HasState
 
     public function mutateStateForValidation(mixed $state): mixed
     {
-
         if (! $this->mutateStateForValidationUsing) {
             return $state;
         }
@@ -954,6 +953,11 @@ trait HasState
         }
 
         return $state->all();
+    }
+
+    public function getStatePathForRelationship(): ?string
+    {
+        return $this->getConstantStatePath();
     }
 
     public function shouldUpdateValidatedStateAfterBeforeStateDehydratedRuns(): bool
