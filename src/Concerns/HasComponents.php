@@ -246,9 +246,10 @@ trait HasComponents
      */
     public function getComponents(bool $withActions = true, bool $withHidden = false, bool $withOriginalKeys = false): array
     {
-        $allComponents = $this->cachedComponents ??= array_reduce(
-            Arr::wrap($this->evaluate($this->components)),
-            function (array $carry, Component | Action | ActionGroup | string | Htmlable $component): array {
+        $allComponents = $this->cachedComponents ??= value(function (): array {
+            $components = [];
+
+            foreach (Arr::wrap($this->evaluate($this->components)) as $componentIndex => $component) {
                 if ($component instanceof Action) {
                     $this->modifyAction($component);
                 }
@@ -259,9 +260,9 @@ trait HasComponents
 
                 if (($component instanceof Action) || ($component instanceof ActionGroup)) {
                     $component = $component->schemaContainer($this);
-                    $carry[] = $component;
+                    $components[$componentIndex] = $component;
 
-                    return $carry;
+                    continue;
                 }
 
                 if (is_string($component)) {
@@ -273,12 +274,11 @@ trait HasComponents
                 }
 
                 $component = $component->container($this);
-                $carry[] = $component;
+                $components[$componentIndex] = $component;
+            }
 
-                return $carry;
-            },
-            initial: [],
-        );
+            return $components;
+        });
 
         $components = array_filter(
             $allComponents,
