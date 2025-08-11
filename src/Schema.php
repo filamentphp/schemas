@@ -52,12 +52,18 @@ class Schema extends ViewComponent implements HasEmbeddedView
 
     protected string $viewIdentifier = 'schema';
 
-    final public function __construct((LivewireComponent & HasSchemas) | null $livewire = null)
+    /**
+     * @param  (LivewireComponent & HasSchemas) | null  $livewire
+     */
+    final public function __construct(?HasSchemas $livewire = null)
     {
         $this->livewire($livewire);
     }
 
-    public static function make((LivewireComponent & HasSchemas) | null $livewire = null): static
+    /**
+     * @param  (LivewireComponent & HasSchemas) | null  $livewire
+     */
+    public static function make(?HasSchemas $livewire = null): static
     {
         $static = app(static::class, ['livewire' => $livewire]);
         $static->configure();
