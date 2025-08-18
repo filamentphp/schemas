@@ -8,7 +8,6 @@ use Filament\Infolists\Components\Entry;
 use Filament\Schemas\Components\Component;
 use Filament\Support\Livewire\Partials\PartialsComponentHook;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 trait HasState
@@ -18,9 +17,9 @@ trait HasState
     protected string $cachedAbsoluteStatePath;
 
     /**
-     * @var array<string, mixed> | null
+     * @var array<string, mixed> | object | null
      */
-    protected ?array $constantState = null;
+    protected array | object | null $constantState = null;
 
     protected bool | Closure $shouldPartiallyRender = false;
 
@@ -30,9 +29,9 @@ trait HasState
     protected ?array $dehydratedComponentsCache = null;
 
     /**
-     * @param  array<string, mixed> | null  $state
+     * @param  array<string, mixed> | object | null  $state
      */
-    public function state(?array $state): static
+    public function state(array | object | null $state): static
     {
         $this->constantState($state);
 
@@ -78,9 +77,9 @@ trait HasState
     }
 
     /**
-     * @param  array<string, mixed> | null  $state
+     * @param  array<string, mixed> | object | null  $state
      */
-    public function constantState(?array $state): static
+    public function constantState(array | object | null $state): static
     {
         $this->constantState = $state;
 
@@ -385,9 +384,9 @@ trait HasState
     /**
      * @internal Do not use this method outside the internals of Filament. It is subject to breaking changes in minor and patch releases.
      *
-     * @return Model | array<string, mixed>
+     * @return array<string, mixed> | object
      */
-    public function getConstantState(): Model | array
+    public function getConstantState(): array | object
     {
         return $this->constantState ?? $this->getRecord(withParentComponentRecord: false) ?? $this->getParentComponent()?->getContainer()->getConstantState() ?? $this->getRecord() ?? throw new Exception('Schema has no [record()] or [state()] set.');
     }
