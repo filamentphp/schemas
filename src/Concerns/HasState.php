@@ -392,7 +392,7 @@ trait HasState
             ?? $this->getRecord(withParentComponentRecord: false)
             ?? $this->getParentComponent()?->getContainer()->getConstantState()
             ?? $this->getRecord()
-            ?? throw new LogicException('Schema has no [record()] or [state()] set.');
+            ?? [];
     }
 
     /**
