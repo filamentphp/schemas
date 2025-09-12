@@ -113,6 +113,6 @@ trait CanGetStateFromRelationships
 
     public function getStateRelationshipPath(): ?string
     {
-        return $this->getStatePath();
+        return $this->getStatePath(isAbsolute: false);
     }
 }
