@@ -2,6 +2,7 @@
 
 namespace Filament\Schemas\Components\StateCasts;
 
+use BackedEnum;
 use Filament\Schemas\Components\StateCasts\Contracts\StateCast;
 
 class StringStateCast implements StateCast
@@ -16,6 +17,10 @@ class StringStateCast implements StateCast
             return null;
         }
 
+        if ($state instanceof BackedEnum) {
+            $state = $state->value;
+        }
+
         return strval($state);
     }
 
@@ -23,6 +28,10 @@ class StringStateCast implements StateCast
     {
         if ($this->isNullable && blank($state)) {
             return null;
+        }
+
+        if ($state instanceof BackedEnum) {
+            $state = $state->value;
         }
 
         return strval($state);

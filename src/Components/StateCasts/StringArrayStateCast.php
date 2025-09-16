@@ -2,6 +2,7 @@
 
 namespace Filament\Schemas\Components\StateCasts;
 
+use BackedEnum;
 use Filament\Schemas\Components\StateCasts\Contracts\StateCast;
 
 class StringArrayStateCast implements StateCast
@@ -24,6 +25,10 @@ class StringArrayStateCast implements StateCast
             function (array $carry, $stateItem): array {
                 if (blank($stateItem)) {
                     return $carry;
+                }
+
+                if ($stateItem instanceof BackedEnum) {
+                    $stateItem = $stateItem->value;
                 }
 
                 $carry[] = strval($stateItem);
@@ -52,6 +57,10 @@ class StringArrayStateCast implements StateCast
             function (array $carry, $stateItem): array {
                 if (blank($stateItem)) {
                     return $carry;
+                }
+
+                if ($stateItem instanceof BackedEnum) {
+                    $stateItem = $stateItem->value;
                 }
 
                 $carry[] = strval($stateItem);
