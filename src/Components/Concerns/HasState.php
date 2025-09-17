@@ -962,6 +962,10 @@ trait HasState
                 return null;
             }
 
+            if (($state->count() < 2) && (! $this->hasMultipleStateRelationship($record))) {
+                return $state->first();
+            }
+
             return $state->all();
         }
 
