@@ -16,6 +16,15 @@ View::make('filament.schemas.components.chart')
 
 This assumes that you have a `resources/views/filament/schemas/components/chart.blade.php` file.
 
+You may pass data to this view through the `viewData()` method:
+
+```php
+use Filament\Schemas\Components\View;
+
+View::make('filament.schemas.components.chart')
+    ->viewData(['data' => $data])
+```
+
 ### Rendering the component's child schema
 
 You may pass an array of child schema components to the `schema()` method of the component:
@@ -147,7 +156,7 @@ use Filament\Schemas\Components\Livewire;
 Livewire::make(Chart::class, ['bar' => 'baz'])
 ```
 
-<UtilityInjection set="schemaComponents" version="4.x">As well as allowing a static value, the `make()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="schemaComponents" version="5.x">As well as allowing a static value, the `make()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 Now, those parameters will be passed to the Livewire component's `mount()` method:
 
