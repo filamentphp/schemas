@@ -214,7 +214,7 @@ trait HasState
             store($this)->push('executedAfterStateUpdatedCallbacks', value: $runId, iKey: $runId);
         }
 
-        $this->clearCachedChildSchemas();
+        $this->clearCachedDefaultChildSchemas();
 
         return $this;
     }
@@ -665,7 +665,7 @@ trait HasState
         // it is already present, cached child schemas must be
         // cleared so they can be re-evaluated. `rawState()`
         // is called during this process.
-        $this->clearCachedChildSchemas();
+        $this->clearCachedDefaultChildSchemas();
 
         return $this;
     }
