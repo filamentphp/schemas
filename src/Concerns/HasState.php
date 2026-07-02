@@ -175,14 +175,11 @@ trait HasState
                 $cache[$component->getStatePath()] = true;
             }
 
-            $childCaches = [];
-
             foreach ($component->getChildSchemas(withHidden: true) as $childSchema) {
-                $childCaches[] = $childSchema->buildDehydratedComponentsCache();
-            }
-
-            if ($childCaches !== []) {
-                $cache = array_merge($cache, ...$childCaches);
+                $cache = [
+                    ...$cache,
+                    ...$childSchema->buildDehydratedComponentsCache(),
+                ];
             }
         }
 
