@@ -1,47 +1,40 @@
 <?php
 
 return [
-
     'callout' => [
         'statuses' => [
-            'danger' => 'Hitilafu:',
-            'info' => 'Kumbuka:',
-            'success' => 'Mafanikio:',
-            'warning' => 'Onyo:',
+            'danger' => 'May error:',
+            'info' => 'Paalala:',
+            'success' => 'Tagumpay:',
+            'warning' => 'Babala:',
         ],
     ],
-
     'section' => [
         'actions' => [
             'collapse' => [
-                'label' => 'Kunja sehemu',
+                'label' => 'I-collapse ang seksyon',
             ],
-
             'expand' => [
-                'label' => 'Panua sehemu',
+                'label' => 'I-expand ang seksyon',
             ],
         ],
     ],
-
     'wizard' => [
         'actions' => [
             'previous_step' => [
-                'label' => 'Nyuma',
+                'label' => 'Bumalik',
             ],
-
             'next_step' => [
-                'label' => 'Mbele',
+                'label' => 'Susunod',
             ],
         ],
-
         'header' => [
             'step' => [
                 'statuses' => [
-                    'completed' => 'Imekamilika',
-                    'upcoming' => 'Haijakamilika',
+                    'completed' => 'Tapos na',
+                    'upcoming' => 'Hindi pa tapos',
                 ],
             ],
         ],
     ],
-
 ];
