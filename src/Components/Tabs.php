@@ -147,12 +147,24 @@ class Tabs extends Component implements HasEmbeddedView
         if ($this->isTabPersistedInQueryString()) {
             $queryStringTab = request()->query($this->getTabQueryStringKey());
 
-            foreach ($this->getChildSchema()->getComponents() as $index => $tab) {
-                if ($tab->getId() !== $queryStringTab) {
-                    continue;
+            if (is_string($queryStringTab)) {
+                $tabs = $this->getChildSchema()->getComponents();
+
+                foreach ($tabs as $index => $tab) {
+                    if ($tab->getKey(isAbsolute: false) !== $queryStringTab) {
+                        continue;
+                    }
+
+                    return $index + 1;
                 }
 
-                return $index + 1;
+                foreach ($tabs as $index => $tab) {
+                    if ($tab->getId() !== $queryStringTab) {
+                        continue;
+                    }
+
+                    return $index + 1;
+                }
             }
         }
 
@@ -544,7 +556,6 @@ class Tabs extends Component implements HasEmbeddedView
                                     $dropdownItemAttributes = (new FilamentComponentAttributeBag)
                                         ->merge([
                                             'type' => 'button',
-                                            'wire:loading.attr' => 'disabled',
                                             'x-bind:class' => "{ 'fi-selected': tab === '" . e($tabKey) . "' }",
                                             'x-on:click' => "tab = '{$tabKey}'; close(\$event);",
                                             'x-show' => "{$index} >= withinDropdownIndex",
@@ -739,7 +750,6 @@ class Tabs extends Component implements HasEmbeddedView
                             'role' => 'tab',
                             'type' => 'button',
                             'wire:click' => $wireClickValue,
-                            'wire:loading.attr' => 'disabled',
                         ], escape: false)
                         ->class([
                             'fi-tabs-item',
