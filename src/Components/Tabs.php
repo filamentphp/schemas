@@ -11,7 +11,7 @@ use Filament\Schemas\Components\Concerns\HasLabel;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Contracts\HasRenderHookScopes;
 use Filament\Schemas\Schema;
-use Filament\Schemas\View\SchemaIconAlias;
+use Filament\Schemas\View\SchemasIconAlias;
 use Filament\Support\Components\Attributes\Exposed;
 use Filament\Support\Components\Contracts\HasEmbeddedView;
 use Filament\Support\Concerns;
@@ -295,10 +295,10 @@ class Tabs extends Component implements HasEmbeddedView
         $isVertical = $this->isVertical();
         $label = $this->getLabel();
         $renderHookScopes = $this->getRenderHookScopes();
-        $tabs = array_values(array_filter(
-            $this->getChildSchema()->getComponents(),
+        $tabs = array_filter(
+            $this->getChildSchema()->getComponents(withOriginalKeys: true),
             static fn ($component): bool => $component instanceof Tab,
-        ));
+        );
 
         $outerAttributes = (new FilamentComponentAttributeBag)
             ->merge([
@@ -500,7 +500,7 @@ class Tabs extends Component implements HasEmbeddedView
                                     ->class(['fi-tabs-item', 'fi-active']);
                                 ?>
                                 <button type="button" <?= $triggerTabAttributes->toHtml() ?>>
-                                    <?= generate_icon_html(Heroicon::ChevronDown, alias: SchemaIconAlias::COMPONENTS_TABS_DROPDOWN_TRIGGER_BUTTON)?->toHtml() ?>
+                                    <?= generate_icon_html(Heroicon::ChevronDown, alias: SchemasIconAlias::COMPONENTS_TABS_DROPDOWN_TRIGGER_BUTTON)?->toHtml() ?>
                                     <span class="fi-tabs-item-label"><?= e($tabLabel) ?></span>
                                     <?php if (filled($tabBadge)) { ?>
                                         <?= $this->generateTabBadgeHtml($tabBadge, $tabBadgeColor, tooltip: $tabBadgeTooltip) ?>
@@ -520,7 +520,7 @@ class Tabs extends Component implements HasEmbeddedView
                                 x-show="! overflowReady || (overflowTabs.some(key => availableTabs.includes(key)) && ! overflowTabs.includes(tab))"
                             >
                                 <span class="fi-tabs-item-label">
-                                    <?= generate_icon_html(Heroicon::EllipsisHorizontal, alias: SchemaIconAlias::COMPONENTS_TABS_MORE_TABS_BUTTON)?->toHtml() ?>
+                                    <?= generate_icon_html(Heroicon::EllipsisHorizontal, alias: SchemasIconAlias::COMPONENTS_TABS_MORE_TABS_BUTTON)?->toHtml() ?>
                                 </span>
                             </button>
                         </div>
@@ -729,6 +729,7 @@ class Tabs extends Component implements HasEmbeddedView
                 <?php foreach ($this->getStartRenderHooks() as $startRenderHook) { ?>
                     <?= FilamentView::renderHook($startRenderHook, scopes: $renderHookScopes)->toHtml() ?>
                 <?php } ?>
+                <?php // Keep loading state on the group so tab availability and panel visibility do not change during the request.?>
                 <div
                     x-ref="tablist"
                     role="<?= $this->hasTabPanels() ? 'tablist' : 'group' ?>"
@@ -736,6 +737,10 @@ class Tabs extends Component implements HasEmbeddedView
                     aria-label="<?= e($label ?? __('filament::components/tabs.label')) ?>"
                     <?php if ($this->hasTabPanels() && $isVertical) { ?>x-bind:aria-orientation="hasVisibleTabHeaders ? 'vertical' : null"<?php } ?>
                     x-on:keydown="handleKeydown($event)"
+                    data-prevent-disabled-clicks
+                    wire:loading.attr="aria-disabled"
+                    wire:loading.class="fi-disabled"
+                    wire:target="<?= e($livewireProperty) ?>"
                     class="fi-sc-tabs-tablist"
                 >
 

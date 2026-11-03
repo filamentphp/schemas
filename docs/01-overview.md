@@ -130,7 +130,7 @@ The vast majority of methods used to configure entries accept functions as param
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 
-Grid::make(fn (): array => [
+Grid::make()->columns(fn (): array => [
     'lg' => auth()->user()->isAdmin() ? 4 : 6,
 ])->schema([
     // ...
@@ -165,6 +165,8 @@ function (Get $get) {
 <Aside variant="tip">
     Unless a form field is [reactive](../forms/overview#the-basics-of-reactivity), the schema will not refresh when the value of the field changes, only when the next user interaction occurs that makes a request to the server. If you need to react to changes in a field's value, it should be `live()`.
 </Aside>
+
+By default, `Get` and `Set` avoid resolving fresh child schemas of the component being evaluated while searching for state, but can still search its cached descendants. This prevents recursive schema evaluation. If you need to include fresh child schemas, you can call `skipComponentsChildSchemasWhileSearching(false)` on the utility before using it. Do not disable this protection inside a child schema callback that would resolve itself again.
 
 ### Injecting the current Eloquent record
 
